@@ -1,0 +1,25 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Unified Remote Server",
+        "data": {
+          "ur_host": "Host (IP address of your PC)",
+          "ur_port": "Port (default 9512)",
+          "ur_password": "Password (leave blank if none)",
+          "scroll_scale": "Scroll sensitivity (default 4.0)"
+        },
+        "data_description": {
+          "ur_host": "The IP address of your Windows PC running Unified Remote Server",
+          "scroll_scale": "Scales scroll wheel deltas before sending to Unified Remote. Higher = faster scroll."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to Unified Remote Server. Check the IP, port, and that the server is running."
+    },
+    "abort": {
+      "already_configured": "This Unified Remote server is already configured."
+    }
+  }
+}

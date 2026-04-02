@@ -1,0 +1,28 @@
+{
+  "name": "unified-remote-hass",
+  "version": "0.1.0",
+  "main": "dist/unified-remote-card.js",
+  "scripts": {
+    "build": "node ./scripts/build.js",
+    "dev": "node ./scripts/build.js --watch"
+  },
+  "keywords": [
+    "home-assistant",
+    "lovelace",
+    "custom-card",
+    "unified-remote",
+    "touchpad",
+    "media"
+  ],
+  "author": "acalcutt",
+  "license": "MIT",
+  "description": "Home Assistant Lovelace card for Unified Remote — touchpad, media controls, keyboard, and volume via a Unified Remote server.",
+  "dependencies": {
+    "custom-card-helpers": "^1.9.0",
+    "lit": "^3.3.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "typescript": "^5.5.0"
+  }
+}

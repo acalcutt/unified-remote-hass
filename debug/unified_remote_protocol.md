@@ -350,12 +350,14 @@ Fields:
 | Action name | Parameters | Verified | Lua API equiv |
 |-------------|-----------|---------|---------------|
 | `MoveBy`  | `X` = dx string, `Y` = dy string | ✅ 1,636 PCAP calls | `ms.moveby(dx,dy)` |
-| `Click`   | `Button` = `"Left"` or `"Right"` | ✅ 9 PCAP calls | `ms.click([btn])` |
+| `Click`   | `Button` = `"Left"` or `"Right"` | ✅ PCAP verified | `ms.click([btn])` |
 | `VScroll` | `Amount` = notch count string | inferred from Lua | `ms.vscroll(n)` |
 | `HScroll` | `Amount` = notch count string | inferred from Lua | `ms.hscroll(n)` |
-| `Double`  | `Button` = `"Left"` | inferred from Lua | `ms.double([btn])` |
+| `DoubleClick`| `Button` = `"Left"` | *Note: Official app just sends `Click` twice* | `ms.double([btn])` |
 | `Down`    | `Button` = `"Left"` | inferred from Lua | `ms.down([btn])` |
 | `Up`      | `Button` = `"Left"` | inferred from Lua | `ms.up([btn])` |
+| `Text`    | `Text` = string | ✅ PCAP verified | `kb.text(string)` |
+| `Press`   | `Key` = `ur_key_name` | inferred from Lua | `kb.press(string)` |
 
 ### Verified raw hex — MoveBy X=-7 Y=-1 (353-byte payload)
 

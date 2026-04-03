@@ -8,7 +8,7 @@ This project has two parts:
 
 | Part | What it does |
 |------|-------------|
-| **HA Integration** (`custom_components/unified_remote/`) | Custom HA integration — connects directly to Unified Remote Server over TCP/UDP from HA |
+| **HA Integration** (`custom_components/unified_remote/`) | Custom HA integration — connects directly to Unified Remote Server over TCP from HA |
 | **Lovelace Card** (`dist/unified-remote-card.js`) | Custom HA dashboard card — touchpad, media bar, keyboard panel, volume buttons |
 
 ```
@@ -16,7 +16,7 @@ HA Dashboard Card ──(HA native WebSocket)──► HA Integration (on HA hos
                                                       │
                                     ┌─────────────────┴──────────────────┐
                                     ▼                                      ▼
-                           Unified Remote UDP :9512              Unified Remote TCP :9512
+                           Unified Remote TCP :9512              Unified Remote TCP :9512
                            Relmtech.Basic Input                  Unified.Media
                            (mouse/keyboard)                      (media/volume)
 ```
@@ -52,7 +52,7 @@ Modifications: replaced WebSocket backend routing for Unified Remote, added medi
 
 - **Windows PC** with [Unified Remote Server](https://www.unifiedremote.com/) installed and running  
 - **Home Assistant** with a Lovelace dashboard  
-- HA host must be able to reach the Windows PC on port **9512** (TCP + UDP)  
+- HA host must be able to reach the Windows PC on port **9512** (TCP)  
 
 ---
 
@@ -148,8 +148,7 @@ Or use the **visual editor** — all options are available there.
 
 The integration communicates with Unified Remote over a persistent TCP connection on port **9512** using a proprietary binary TLV format, reverse-engineered from a live PCAP capture (April 2026). See [`debug/unified_remote_protocol.md`](debug/unified_remote_protocol.md) for details.
 
-Mouse and keyboard use **UDP** port 9512 (`Relmtech.Basic Input` remote).  
-Media and volume use **TCP** port 9512 (`Unified.Media` remote).
+Mouse, keyboard, media, and volume all use the **TCP** connection on port 9512 (routing to the `Relmtech.Basic Input` and `Unified.Media` remotes respectively).
 
 | Card action | Unified Remote button |
 |------------|----------------------|

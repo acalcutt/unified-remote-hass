@@ -2,6 +2,7 @@
 
 DOMAIN = "unified_remote"
 
+CONF_NAME         = "name"
 CONF_UR_HOST      = "ur_host"
 CONF_UR_PORT      = "ur_port"
 CONF_UR_PASSWORD  = "ur_password"

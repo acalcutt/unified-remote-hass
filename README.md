@@ -8,7 +8,7 @@ This project has two parts:
 
 | Part | What it does |
 |------|-------------|
-| **HA Integration** (`custom_components/unified_remote/`) | Custom HA integration — connects directly to Unified Remote Server over TCP from HA |
+| **HA Integration** (`custom_components/unified_remote/`) | Custom HA integration — connects directly to Unified Remote Server over TCP from HA. Also exposes your computer as a `media_player` entity! |
 | **Lovelace Card** (`dist/unified-remote-card.js`) | Custom HA dashboard card — touchpad, media bar, keyboard panel, volume buttons |
 
 ```
@@ -41,6 +41,7 @@ Modifications: replaced WebSocket backend routing for Unified Remote, added medi
 - **Two-finger swipe** → scroll (vertical or horizontal)  
 - **Media bar** — ⏮ Previous / ⏯ Play-Pause / ⏹ Stop / ⏭ Next (via Unified Remote)  
 - **Volume** — Up / Down / Mute (via Unified Remote)  
+- **Home Assistant Media Player** — In addition to the card, the integration automatically creates a native `media_player` entity (e.g. `media_player.living_room_pc`) that you can control via standard HA automations, node-RED, or voice assistants like Alexa and Google Home (exposes Play, Pause, Next, Previous, Volume Up, Volume Down).
 - **Keyboard panel** — text input, arrow keys, Tab/Esc/Del/Home/End/PgUp/PgDn, Ctrl+Alt+Del  
 - **Speed multipliers** × 2 / × 3 / × 4  
 - **Lock mode** — disables touch so you can scroll the HA page normally  
@@ -70,6 +71,7 @@ Copy the `custom_components/unified_remote/` folder to your HA config directory:
       client.py
       config_flow.py
       const.py
+      media_player.py
       manifest.json
       strings.json
       translations/
@@ -84,6 +86,7 @@ Go to **Settings → Devices & Services → Add Integration** and search for **U
 
 | Field | Description |
 |-------|-------------|
+| Integration Name | Friendly name for the entity (default `Unified Remote`) |
 | Host | IP address of your computer |
 | Port | `9512` (default) |
 | Password | Unified Remote server password (leave blank if none) |

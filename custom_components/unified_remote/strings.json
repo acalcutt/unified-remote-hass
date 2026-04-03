@@ -4,12 +4,14 @@
       "user": {
         "title": "Unified Remote Server",
         "data": {
+          "name": "Integration Name",
           "ur_host": "Host (IP address of your PC)",
           "ur_port": "Port (default 9512)",
           "ur_password": "Password (leave blank if none)",
           "scroll_scale": "Scroll sensitivity (default 4.0)"
         },
         "data_description": {
+          "name": "The friendly name exposed to Home Assistant / Alexa / Google Home",
           "ur_host": "The IP address of your Windows PC running Unified Remote Server",
           "scroll_scale": "Scales scroll wheel deltas before sending to Unified Remote. Higher = faster scroll."
         }

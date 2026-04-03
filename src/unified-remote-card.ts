@@ -98,7 +98,7 @@ export class UnifiedRemoteCard extends LitElement {
   private lastTapTime = 0;
   private tapTimer?: number;
   private holdTimer?: number;
-  private dragPointerId?: number;
+  private dragLocked: boolean = false;
   private lockedPan?: LockedPanState;
 
   private opts = { ...DEFAULTS };
@@ -160,9 +160,9 @@ export class UnifiedRemoteCard extends LitElement {
     }
     this.tapTimer = this.statusTimer = this.holdTimer = undefined;
 
-    if (this.dragPointerId != null) {
+    if (this.dragLocked) {
       this.sendButton('up');
-      this.dragPointerId = undefined;
+      this.dragLocked = false;
     }
   }
 
@@ -276,6 +276,12 @@ export class UnifiedRemoteCard extends LitElement {
     ev.preventDefault();
     this.captureLayer?.setPointerCapture(ev.pointerId);
 
+    // blur the keyboard input so mobile keyboards close when touching the trackpad
+    const kbInput = this.renderRoot?.querySelector('.keyboard-input') as HTMLInputElement | null;
+    if (kbInput && document.activeElement !== document.body) {
+      kbInput.blur();
+    }
+
     const now = performance.now();
     this.pointers.set(ev.pointerId, {
       id: ev.pointerId,
@@ -334,11 +340,7 @@ export class UnifiedRemoteCard extends LitElement {
     if (!pointer) return;
     ev.preventDefault();
 
-    const wasDragging = this.dragPointerId === ev.pointerId;
-    if (wasDragging) {
-      this.sendButton('up');
-      this.dragPointerId = undefined;
-    }
+    const wasDragging = this.dragLocked;
     this.cancelHoldTimer();
 
     const beforeCount = this.pointers.size;
@@ -362,7 +364,16 @@ export class UnifiedRemoteCard extends LitElement {
     }
 
     if (this.pointers.size === 0) {
-      if (!wasDragging && this.gesture === 'move' && dist <= this.opts.tapSuppressionPx && duration <= this.opts.doubleTapMs) {
+      const isTap = this.gesture === 'move' && dist <= this.opts.tapSuppressionPx && duration <= this.opts.doubleTapMs;
+
+      if (wasDragging && isTap) {
+        this.sendButton('up');
+        this.dragLocked = false;
+        this.gesture = null;
+        return;
+      }
+
+      if (!wasDragging && isTap) {
         if (this.tapTimer) { clearTimeout(this.tapTimer); this.tapTimer = undefined; }
 
         if (now - this.lastTapTime <= this.opts.doubleTapMs) {
@@ -386,9 +397,9 @@ export class UnifiedRemoteCard extends LitElement {
   private handlePointerCancel = (ev: PointerEvent): void => {
     if (this._locked) { this.endLockedPan(ev); return; }
     this.pointers.delete(ev.pointerId);
-    if (this.dragPointerId === ev.pointerId) {
+    if (this.dragLocked) {
       this.sendButton('up');
-      this.dragPointerId = undefined;
+      this.dragLocked = false;
     }
     this.cancelHoldTimer();
     if (this.pointers.size === 0) this.gesture = null;
@@ -429,8 +440,8 @@ export class UnifiedRemoteCard extends LitElement {
       const pointer = this.pointers.get(ev.pointerId);
       if (!pointer) return;
       const dist = Math.hypot(pointer.x - pointer.startX, pointer.y - pointer.startY);
-      if (this.pointers.size === 1 && this.gesture === 'move' && this.dragPointerId == null && dist <= HOLD_CANCEL_PX) {
-        this.dragPointerId = ev.pointerId;
+      if (this.pointers.size === 1 && this.gesture === 'move' && !this.dragLocked && dist <= HOLD_CANCEL_PX) {
+        this.dragLocked = true;
         this.sendButton('down');
         if (navigator?.vibrate) navigator.vibrate(15);
       }
@@ -443,10 +454,10 @@ export class UnifiedRemoteCard extends LitElement {
   }
 
   private endDragIfNeeded(pointerId?: number): void {
-    if (this.dragPointerId == null) return;
+    if (!this.dragLocked) return;
     if (pointerId == null || this.dragPointerId === pointerId) {
       this.sendButton('up');
-      this.dragPointerId = undefined;
+      this.dragLocked = false;
     }
   }
 
@@ -567,9 +578,9 @@ export class UnifiedRemoteCard extends LitElement {
   // ── Toggle controls ─────────────────────────────────────────────────────────
 
   private toggleLock = (): void => {
-    if (!this._locked && this.dragPointerId != null) {
+    if (!this._locked && this.dragLocked) {
       this.sendButton('up');
-      this.dragPointerId = undefined;
+      this.dragLocked = false;
     }
     this.cancelHoldTimer();
     this.lockedPan = undefined;

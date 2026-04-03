@@ -11,6 +11,7 @@ from homeassistant.data_entry_flow import FlowResult
 
 from .client import UnifiedRemoteClient
 from .const import (
+    CONF_NAME,
     CONF_SCROLL_SCALE,
     CONF_UR_HOST,
     CONF_UR_PASSWORD,
@@ -24,6 +25,7 @@ _LOGGER = logging.getLogger(__name__)
 
 STEP_USER_SCHEMA = vol.Schema(
     {
+        vol.Required(CONF_NAME, default="Unified Remote"): str,
         vol.Required(CONF_UR_HOST): str,
         vol.Optional(CONF_UR_PORT, default=DEFAULT_UR_PORT): int,
         vol.Optional(CONF_UR_PASSWORD, default=""): str,
@@ -71,7 +73,7 @@ class UnifiedRemoteConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 connected = await _try_connect(self.hass, user_input)
                 if connected:
                     return self.async_create_entry(
-                        title=f"Unified Remote ({user_input[CONF_UR_HOST]})",
+                        title=user_input.get(CONF_NAME, f"Unified Remote ({user_input[CONF_UR_HOST]})"),
                         data=user_input,
                     )
                 errors["base"] = "cannot_connect"

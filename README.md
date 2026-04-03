@@ -1,6 +1,6 @@
 # Unified Remote for Home Assistant
 
-Control your Windows PC from Home Assistant with a touchpad, media controls, keyboard, and volume — powered by your existing **Unified Remote** server.
+Control your computer (Windows, macOS, or Linux) from Home Assistant with a touchpad, media controls, keyboard, and volume — powered by your existing **Unified Remote** server.
 
 ## Overview
 
@@ -22,7 +22,7 @@ HA Dashboard Card ──(HA native WebSocket)──► HA Integration (on HA hos
 ```
 
 The card communicates via HA's **built-in** WebSocket connection — no separate Python bridge or extra ports needed.  
-The integration runs on your HA host and forwards commands to the Unified Remote Server on your Windows PC.
+The integration runs on your HA host and forwards commands to the Unified Remote Server on your computer.
 
 ### Attribution
 
@@ -50,9 +50,9 @@ Modifications: replaced WebSocket backend routing for Unified Remote, added medi
 
 ## Requirements
 
-- **Windows PC** with [Unified Remote Server](https://www.unifiedremote.com/) installed and running  
+- **Computer (Windows, macOS, or Linux)** with [Unified Remote Server](https://www.unifiedremote.com/) installed and running  
 - **Home Assistant** with a Lovelace dashboard  
-- HA host must be able to reach the Windows PC on port **9512** (TCP)  
+- HA host must be able to reach the computer on port **9512** (TCP)  
 
 ---
 
@@ -84,7 +84,7 @@ Go to **Settings → Devices & Services → Add Integration** and search for **U
 
 | Field | Description |
 |-------|-------------|
-| Host | IP address of your Windows PC |
+| Host | IP address of your computer |
 | Port | `9512` (default) |
 | Password | Unified Remote server password (leave blank if none) |
 | Scroll sensitivity | Scales scroll wheel deltas (default `4.0`) |

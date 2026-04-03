@@ -616,6 +616,7 @@ export class UnifiedRemoteCard extends LitElement {
       { label: 'End',    key: 'end'       as KeyCommand },
       { label: 'PgUp',   key: 'page_up'   as KeyCommand },
       { label: 'PgDn',   key: 'page_down' as KeyCommand },
+      { label: 'Ctrl+Alt+Del', key: 'ctrl_alt_del' as KeyCommand },
     ];
 
     return html`
@@ -660,6 +661,8 @@ export class UnifiedRemoteCard extends LitElement {
 
           <!-- capture layer — receives all pointer events -->
           <div class="capture"
+               @mousedown=${(e: Event) => { if ((e as any).detail > 1) e.preventDefault(); }}
+               @dblclick=${(e: Event) => e.preventDefault()}
                @pointerdown=${this.handlePointerDown}
                @pointermove=${this.handlePointerMove}
                @pointerup=${this.handlePointerUp}

@@ -167,10 +167,19 @@ def _dispatch(client: UnifiedRemoteClient, msg: dict[str, Any]) -> None:
 
     elif t == "key":
         key = msg.get("key", "")
-        ur_key = UR_KEY_MAP.get(key, key)
-        if ur_key:
-            # kb.press() equivalent — inferred from UR Lua API, not PCAP-verified
-            client.run_keyboard_action("Press", [("Key", ur_key)])
+        # Handle our special combo key
+        if key == "ctrl_alt_del":
+            # Based on the Lua API `kb.stroke("ctrl", "alt", "delete")`
+            client.run_keyboard_action("Stroke", [
+                ("Key", "ctrl"), 
+                ("Key", "alt"), 
+                ("Key", "delete")
+            ])
+        else:
+            ur_key = UR_KEY_MAP.get(key, key)
+            if ur_key:
+                # kb.press() equivalent — inferred from UR Lua API, not PCAP-verified
+                client.run_keyboard_action("Press", [("Key", ur_key)])
 
     # ── Media / Volume ─────────────────────────────────────────────────────────
     elif t == "volume":

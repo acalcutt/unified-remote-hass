@@ -38,8 +38,8 @@ export type KeyCommand =
   | 'home'
   | 'end'
   | 'page_up'
-  | 'page_down';
-
+  | 'page_down'
+  | 'ctrl_alt_del';
 export type VolumeAction = 'up' | 'down' | 'mute';
 
 export type MediaAction = 'play_pause' | 'stop' | 'previous' | 'next';

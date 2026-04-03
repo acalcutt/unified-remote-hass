@@ -126,6 +126,7 @@ async def ws_handle_command(
 
 def _dispatch(client: UnifiedRemoteClient, msg: dict[str, Any]) -> None:
     """Synchronous dispatch — runs in HA's executor thread pool."""
+    _LOGGER.debug("Websocket msg dispatch: %s", msg)
     t = msg.get("t", "")
 
     # ── Mouse ──────────────────────────────────────────────────────────────────

@@ -363,14 +363,15 @@ class UnifiedRemoteClient:
 
     def run_mouse_action(self, name: str, params: list) -> None:
         """
-        Send a UDP mouse action to Relmtech.Basic Input.
-        Silently dropped if UDP session not yet established.
+        Send a TCP mouse action to Relmtech.Basic Input.
         params: list of (key, value) string tuples, e.g. [("X", "-5"), ("Y", "2")]
         """
         if not self._session_id:
             log.debug("Mouse action '%s' dropped: no session yet", name)
             return
-        self._send_udp(
+
+        log.debug("UR TCP Mouse Action: %s %s", name, params)
+        self._send(
             _build_input_action_udp(
                 self.source_id, self._session_id, name, params
             )
@@ -474,6 +475,9 @@ class UnifiedRemoteClient:
         if self._session_id:
             self._send(_build_open_remote(self.source_id, REMOTE_MOUSE))
             self._drain(timeout=0.5)
+            self._send(_build_load_remote(self.source_id, REMOTE_MOUSE))
+            self._drain(timeout=0.5)
+            
             init_pkt = _build_udp_session_init(self.source_id, self._session_id)
             self._send_udp(init_pkt)
             log.info(
@@ -492,6 +496,7 @@ class UnifiedRemoteClient:
                 last_ka = time.time()
 
     def _send(self, data: bytes) -> None:
+        log.debug("Sending TCP packet (%d bytes): %s", len(data), data.hex())
         with self._lock:
             sock = self._sock
         if sock is None:
@@ -503,6 +508,7 @@ class UnifiedRemoteClient:
             self._close_sock()
 
     def _send_udp(self, data: bytes) -> None:
+        log.debug("Sending UDP packet (%d bytes): %s", len(data), data.hex())
         if self._udp_sock is None:
             try:
                 self._udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

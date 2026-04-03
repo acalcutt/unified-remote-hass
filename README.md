@@ -41,7 +41,7 @@ Modifications: replaced WebSocket backend routing for Unified Remote, added medi
 - **Two-finger swipe** → scroll (vertical or horizontal)  
 - **Media bar** — ⏮ Previous / ⏯ Play-Pause / ⏹ Stop / ⏭ Next (via Unified Remote)  
 - **Volume** — Up / Down / Mute (via Unified Remote)  
-- **Keyboard panel** — text input, arrow keys, Tab/Esc/Del/Home/End/PgUp/PgDn  
+- **Keyboard panel** — text input, arrow keys, Tab/Esc/Del/Home/End/PgUp/PgDn, Ctrl+Alt+Del  
 - **Speed multipliers** × 2 / × 3 / × 4  
 - **Lock mode** — disables touch so you can scroll the HA page normally  
 - Remembers lock, speed, and keyboard state per view  

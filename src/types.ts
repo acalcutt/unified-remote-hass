@@ -63,6 +63,3 @@ export type URCommand =
   | { t: 'key'; key: KeyCommand }
   | { t: 'volume'; action: VolumeAction }
   | { t: 'media'; action: MediaAction };
-
-/** @deprecated Kept for bridge compatibility. Use URCommand. */
-export type BridgeMessage = URCommand;

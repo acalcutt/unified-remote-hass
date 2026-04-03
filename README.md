@@ -160,17 +160,3 @@ Mouse, keyboard, media, and volume all use the **TCP** connection on port 9512 (
 | Volume Down | `volume_down` |
 | Mute | `volume_mute` |
 
----
-
-## Alternative: standalone Python bridge
-
-If you want to run without HA (or on a machine that can't reach the UR server), a standalone WebSocket bridge is still available in `bridge/unified_remote_bridge.py`.
-
-```powershell
-cd path\to\unified-remote-hass\bridge
-pip install -r requirements.txt
-python unified_remote_bridge.py --ur-host 127.0.0.1
-```
-
-This is a separate deployment option — the Lovelace card in this repo no longer uses it.
-

@@ -149,7 +149,8 @@ def _dispatch(client: UnifiedRemoteClient, msg: dict[str, Any]) -> None:
         client.run_mouse_action("Click", [("Button", "Right")])
 
     elif t == "double_click":
-        client.run_mouse_action("Double", [("Button", "Left")])
+        client.run_mouse_action("Click", [("Button", "Left")])
+        client.run_mouse_action("Click", [("Button", "Left")])
 
     elif t == "down":
         client.run_mouse_action("Down", [("Button", "Left")])
@@ -162,7 +163,7 @@ def _dispatch(client: UnifiedRemoteClient, msg: dict[str, Any]) -> None:
         text = msg.get("text", "")
         if text:
             # kb.text() equivalent — inferred from UR Lua API, not PCAP-verified
-            client.run_keyboard_action("Type", [("Text", text)])
+            client.run_keyboard_action("Text", [("Text", text)])
 
     elif t == "key":
         key = msg.get("key", "")

@@ -413,6 +413,7 @@ class UnifiedRemoteClient:
         while self._running:
             try:
                 self._connect_and_run()
+                backoff = 2.0
             except Exception as exc:
                 log.warning(
                     "UR connection error: %s — retrying in %.0f s", exc, backoff
@@ -490,6 +491,8 @@ class UnifiedRemoteClient:
         # ── Keep-alive loop ────────────────────────────────────────────────────
         last_ka = time.time()
         while self._running:
+            if not self._ready.is_set():
+                break
             time.sleep(1.0)
             if time.time() - last_ka >= UR_KEEPALIVE_SECS:
                 self._send(_build_keepalive(self.source_id))

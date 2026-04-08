@@ -10,6 +10,7 @@ const DEFAULT_FORM_VALUES: Partial<UnifiedRemoteCardConfig> = {
   show_volume_controls: true,
   show_media_controls: true,
   show_keyboard_button: true,
+  show_mouse_buttons: true,
   invert_scroll: false,
 };
 
@@ -20,6 +21,7 @@ const schema: HaFormSchema[] = [
   { name: 'show_volume_controls', type: 'boolean', default: true },
   { name: 'show_media_controls',  type: 'boolean', default: true },
   { name: 'show_keyboard_button', type: 'boolean', default: true },
+  { name: 'show_mouse_buttons',   type: 'boolean', default: true },
   { name: 'sensitivity',          type: 'float',   required: false },
   { name: 'scroll_multiplier',    type: 'float',   required: false },
   { name: 'invert_scroll',        type: 'boolean', default: false },
@@ -66,6 +68,7 @@ export class UnifiedRemoteCardEditor extends LitElement implements LovelaceCardE
       case 'show_volume_controls': return 'Show volume controls (up / down / mute)';
       case 'show_media_controls':  return 'Show media controls bar (prev / play-pause / stop / next)';
       case 'show_keyboard_button': return 'Show keyboard toggle button';
+      case 'show_mouse_buttons':    return 'Show mouse buttons (left / right click)';
       case 'sensitivity':          return 'Swipe sensitivity (default 1)';
       case 'scroll_multiplier':    return 'Scroll multiplier (default 1)';
       case 'invert_scroll':        return 'Reverse scroll direction';

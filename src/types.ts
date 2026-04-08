@@ -15,6 +15,7 @@ export interface UnifiedRemoteCardConfig extends LovelaceCardConfig {
   show_volume_controls?: boolean;
   show_media_controls?: boolean;
   show_keyboard_button?: boolean;
+  show_mouse_buttons?: boolean;
 }
 
 export type HaFormSchema =

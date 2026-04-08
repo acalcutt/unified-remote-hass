@@ -75,6 +75,7 @@ const DEFAULTS = {
   showVolumeControls: true,
   showMediaControls: true,
   showKeyboardButton: true,
+  showMouseButtons: true,
 };
 
 @customElement('unified-remote-card')
@@ -137,6 +138,7 @@ export class UnifiedRemoteCard extends LitElement {
       showVolumeControls: config.show_volume_controls ?? DEFAULTS.showVolumeControls,
       showMediaControls: config.show_media_controls ?? DEFAULTS.showMediaControls,
       showKeyboardButton: config.show_keyboard_button ?? DEFAULTS.showKeyboardButton,
+      showMouseButtons: config.show_mouse_buttons ?? DEFAULTS.showMouseButtons,
     };
 
     this._locked = false;
@@ -688,6 +690,17 @@ export class UnifiedRemoteCard extends LitElement {
             </div>` : nothing}
         </div>
 
+        <!-- ── Mouse buttons ── -->
+        ${this.opts.showMouseButtons ? html`
+          <div class="mouse-bar">
+            <button class="mouse-btn" title="Left click"  @click=${() => this.sendTap('click')}>
+              Left
+            </button>
+            <button class="mouse-btn" title="Right click" @click=${() => this.sendTap('right_click')}>
+              Right
+            </button>
+          </div>` : nothing}
+
         <!-- ── Media controls bar ── -->
         ${this.opts.showMediaControls ? html`
           <div class="media-bar">
@@ -908,6 +921,40 @@ export class UnifiedRemoteCard extends LitElement {
       color: rgba(255,255,255,0.7);
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
       pointer-events: none;
+    }
+
+    /* ── Mouse buttons bar ── */
+    .mouse-bar {
+      display: flex;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .mouse-btn {
+      flex: 1;
+      height: 38px;
+      border: none;
+      border-radius: 0;
+      background: #12171f;
+      color: #7a8494;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      transition: background 120ms ease, color 120ms ease;
+    }
+
+    .mouse-btn:first-child {
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .mouse-btn:hover {
+      background: rgba(255,255,255,0.07);
+      color: #cdd4e0;
+    }
+
+    .mouse-btn:active {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
     }
 
     /* ── Media controls bar ── */
